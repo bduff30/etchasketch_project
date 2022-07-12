@@ -1,24 +1,28 @@
-const container = document.querySelector(".container");
-const newGridBtn = document.querySelector(".newGridBtn");
+function populateGrid(size) {
+  let container = document.querySelector(".container");
+  let squares = container.querySelectorAll("div");
+  squares.forEach((div) => div.remove());
+  container.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
+  container.style.gridTemplateRows = `repeat(${size}, 1fr)`;
 
-//Create 16x16 grid with hover effect.
-for (i = 0; i < 256; i++) {
-  const grid = document.createElement("div");
-  grid.style.border = "1px solid black";
-  grid.style.width = "30px";
-  grid.style.height = "30px";
-  grid.addEventListener("mouseover", () => {
-    grid.style.backgroundColor = "blue";
-  });
-  container.appendChild(grid);
+  let amount = size * size;
+  for (i = 0; i < amount; i++) {
+    let square = document.createElement("div");
+    square.addEventListener("mouseover", () => {
+      square.style.backgroundColor = "blue";
+    });
+    container.appendChild(square);
+  }
 }
 
-//If user clicks 'New Grid' button
+populateGrid(16);
+
+const newGridBtn = document.querySelector(".newGridBtn");
 newGridBtn.addEventListener("click", () => {
   let input = prompt("Enter # of Rows/Columns");
-  if (input <= 100) {
-    return input;
+  if (input > 1 && input < 101) {
+    populateGrid(input);
   } else {
-    alert("Error: 100 is max #");
+    alert("Error: # must be 2-100");
   }
 });
